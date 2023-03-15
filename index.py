@@ -18,4 +18,3 @@ those who do not want to change
 let the sleep
 '''
 freq(poems)
-

@@ -3,9 +3,18 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"time"
 	"unicode/utf8"
 )
+
+var poems = `those who do not feel this love
+pulling the mlike a river
+those who do not drink dawn
+like a cup of spring water
+or take in sunset like supper
+those who do not want to change
+let the sleep`
 
 func main() {
 	//decare and init in 2 lines
@@ -72,10 +81,35 @@ func main() {
 	fmt.Println(s2, " s2 has length ", len(s2), " and cap: ", cap(s2))
 	fmt.Println(s3, " s2 has length ", len(s3), " and cap: ", cap(s3))
 	fmt.Println("Array of slices:", arrS, "arr with declared cap", arrS1)
+
+	//func Frequency
+	fmt.Println("Most frequenty word: ", Frequency(poems))
+
 }
 
 func Hello(name string) string {
 	// Return a greeting that embeds the name in a message.
 	message := fmt.Sprintf("Function: Hi, %v. Welcome!", name)
 	return message
+}
+func Frequency(paragraph string) string {
+	//init map
+	n := map[string]int{"foo": 1, "bar": 2}
+	fmt.Println("map init:", n)
+
+	//make(map[key-type]val-type)
+	frequency := make(map[string]int)
+
+	//strings.Fields : string.split()
+	for _, word := range strings.Fields(paragraph) {
+		frequency[word]++
+	}
+	maxW, maxC := "", 0 //init multi var in one line
+
+	for w, c := range frequency {
+		if c > maxC {
+			maxW, maxC = w, c //multi var assignment
+		}
+	}
+	return maxW
 }
