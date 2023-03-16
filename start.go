@@ -16,6 +16,12 @@ or take in sunset like supper
 those who do not want to change
 let the sleep`
 
+// STRUCT
+type Account struct {
+	username string
+	password int
+}
+
 func main() {
 	//decare and init in 2 lines
 	var ass string
@@ -75,7 +81,7 @@ func main() {
 	s2 := make([]int, 4, 6) //create slice with make, len=4;cap=6
 	s3 := make([]int, 4)    //len=4;cap=4
 
-	arrS := [][]int{s1, s2, s3}
+	arrS := [][]int{s1, s2, s3} //array of slice
 	arrS1 := [5][]int{s1, s2, s3}
 
 	fmt.Println(s2, " s2 has length ", len(s2), " and cap: ", cap(s2))
@@ -84,6 +90,43 @@ func main() {
 
 	//func Frequency
 	fmt.Println("Most frequenty word: ", Frequency(poems))
+
+	//func SplitExtesion
+	root, ext := SplitExt("paper.com")
+	fmt.Printf("root = %#v, path=%#v \n", root, ext)
+
+	//func Mean
+	m, err := Mean(floats)
+	fmt.Println(m, err)
+
+	//struct
+	user1 := Account{"abi", 2433}
+	pointr := &user1         //pointer
+	pointr.username = "Finn" //pointer changed user1
+	fmt.Println("Account name: ", user1.username)
+	//init several structs instances
+	var (
+		user2 = Account{"Enn", 3242}
+		user3 = Account{"Poland", 3241}
+		user4 = Account{"Tan", 8411}
+	)
+	fmt.Println(user2, user3, user4)
+	setPassword(&user2, 9999) //pass by reference
+	fmt.Println("Account with new password: ", user2)
+
+	//array of struct
+	arrStruct := []struct {
+		i int
+		b bool
+	}{
+		{2, true},
+		{3, false},
+		{5, true},
+		{7, true},
+		{11, false},
+		{13, true},
+	}
+	fmt.Println(arrStruct)
 
 }
 
@@ -101,15 +144,32 @@ func Frequency(paragraph string) string {
 	frequency := make(map[string]int)
 
 	//strings.Fields : string.split()
-	for _, word := range strings.Fields(paragraph) {
+	for _, word := range strings.Fields(paragraph) { //use _ when don't use index
 		frequency[word]++
 	}
 	maxW, maxC := "", 0 //init multi var in one line
 
-	for w, c := range frequency {
+	for w, c := range frequency { //items in frequency is random
 		if c > maxC {
 			maxW, maxC = w, c //multi var assignment
 		}
 	}
+	fmt.Print(frequency)
 	return maxW
+}
+func SplitExt(path string) (string, string) { //return 2 strings
+	i := strings.LastIndex(path, ".") //find index of last '.' in path
+	if i == -1 {                      //if not found
+		return path, "" //return path
+	}
+	return path[:i], path[i:] //return two parts splitted
+}
+func Mean(values []float64) (float64, error) {
+	if len(values) == 0 {
+		return 0, fmt.Errorf("Empty!")
+	}
+	return values[len(values)/2], nil //nil is zero value for pointers
+}
+func setPassword(usr *Account, newPass int) {
+	usr.password = newPass
 }
